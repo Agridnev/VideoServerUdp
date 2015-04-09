@@ -77,7 +77,7 @@ void Server::run()
                 size = writeBufferSize;
             if (offset >= 0 && offset < compressedFrame.getSize() && size > 0)
             {
-                memcpy(writeBuffer, compressedFrame.getData() + offset, size);
+                memcpy(writeBuffer, (char *) compressedFrame.getData() + offset, size);
                 if (sendto(s, writeBuffer, size, 0, (struct sockaddr*) &si_other, slen) == -1)
                 {
                     printf("Cannot send data\n");

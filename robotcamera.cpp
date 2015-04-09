@@ -55,7 +55,7 @@ int RobotCamera::capture()
 {
 	if (!ready)
 		return 1;
-	if (framesRemain-- == 0)
+	if (framesRemain == 0)
 	{
 		dc1394_video_set_transmission(camera, DC1394_OFF);
 		dc1394_capture_stop(camera);
@@ -63,6 +63,7 @@ int RobotCamera::capture()
 		dc1394_video_set_transmission(camera, DC1394_ON);
 		framesRemain = DMA_BUFFER_SIZE;
 	}
+	--framesRemain;
 	dc1394video_frame_t *frame=NULL;
 	dc1394_capture_dequeue(camera, DC1394_CAPTURE_POLICY_WAIT, &frame);
 	unsigned int width = frame->size[0];
